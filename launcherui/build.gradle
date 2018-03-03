@@ -1,0 +1,24 @@
+apply plugin: 'java'
+
+dependencies {
+    compile "no.tornado:fxlauncher:1.0.18"
+}
+
+task("copyMeta", type: Copy) {
+    dependsOn('jar')
+    group = "deploy"
+    from 'build/resources/main/META-INF'
+    into 'build/target/classes/META-INF'
+}
+
+task("copyAll", type: Copy) {
+    dependsOn "copyMeta"
+    group = "deploy"
+
+    from('build/classes/java/main')
+    from('build/resources/main/') {
+        include '*.css'
+    }
+
+    into 'build/target/classes'
+}

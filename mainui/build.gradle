@@ -1,0 +1,47 @@
+
+buildscript {
+    ext.kotlin_version = '1.2.21'
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "no.tornado:fxlauncher-gradle-plugin:1.0.17"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+    }
+}
+
+apply plugin: "kotlin"
+apply plugin: 'no.tornado.fxlauncher'
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.21"
+    compile 'no.tornado:tornadofx:1.7.15'
+    testCompile 'junit:junit:4.12'
+}
+
+fxlauncher {
+    applicationVendor 'Company Name'
+    applicationVersion "1.0"
+    applicationUrl 'http://localhost:8080/files'
+    applicationMainClass 'com.github.bkenn.fxlauncherdemo.MyApp'
+    acceptDowngrade false
+    deployTarget 'briank@localhost:destDir'
+}
+
+task("generateFXJar", type: Exec) {
+    dependsOn('embedApplicationManifest', ':launcherui:copyAll')
+    group = "fxlauncher"
+    workingDir './build/fxlauncher'
+    commandLine 'jar', 'uf', 'fxlauncher.jar', '-C', '../../../launcherui/build/target/classes', '.'
+}
