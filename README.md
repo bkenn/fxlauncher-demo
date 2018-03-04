@@ -1,4 +1,4 @@
-# Gradle Application for FXLauncher with Custom Splash Screen
+# Gradle FXLauncher Application with Custom Splash Screen 
 
 This is an example on how to create a TornadoFX application with a custom splash screen using the Gradle build system.
 
